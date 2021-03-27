@@ -3,7 +3,7 @@ const axios = require('axios');
 const ROUTES = {
   'eclipse/jkube': 'jkubeio/ci'
 };
-const VALID_ACTIONS = ['converted_to_draft', 'opened', 'synchronize'];
+const VALID_ACTIONS = ['converted_to_draft', 'opened', 'synchronize', 'ready_for_review'];
 
 const isApplicable = ({action = '', pullRequest, repositoryFullName}) =>
   pullRequest && ROUTES[repositoryFullName] && VALID_ACTIONS.includes(action);
