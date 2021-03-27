@@ -3,12 +3,12 @@ const axios = require('axios');
 const ROUTES = {
   'eclipse/jkube': 'jkubeio/ci'
 };
-const VALID_ACTIONS = ['opened', 'synchronize'];
+const VALID_ACTIONS = ['converted_to_draft', 'opened', 'synchronize'];
 
 const isApplicable = ({action = '', pullRequest, repositoryFullName}) =>
   pullRequest && ROUTES[repositoryFullName] && VALID_ACTIONS.includes(action);
 
-const repositoryDispatch = async (req, res) => {
+const repositoryDispatch = async req => {
   const {
     action,
     sender: {login},
@@ -35,7 +35,6 @@ const repositoryDispatch = async (req, res) => {
       console.error(`Error happened:\n${err}`);
     }
   }
-  res.status(200).send(`200 Healthy`);
 }
 
 module.exports = repositoryDispatch;
