@@ -1,12 +1,14 @@
 const axios = require('axios');
 
 const ROUTES = {
-  'eclipse/jkube': 'jkubeio/ci'
+  'eclipse/jkube': {
+    target: 'jkubeio/ci',
+    actions: ['converted_to_draft', 'opened', 'synchronize', 'ready_for_review']
+  }
 };
-const VALID_ACTIONS = ['converted_to_draft', 'opened', 'synchronize', 'ready_for_review'];
 
 const isApplicable = ({action = '', pullRequest, repositoryFullName}) =>
-  pullRequest && ROUTES[repositoryFullName] && VALID_ACTIONS.includes(action);
+  pullRequest && ROUTES[repositoryFullName] && ROUTES[repositoryFullName].actions.includes(action);
 
 const repositoryDispatch = async req => {
   const {
@@ -19,7 +21,7 @@ const repositoryDispatch = async req => {
     console.log(`Request received - ${action}: ${repositoryFullName} (${login}): #${pullRequest.number}`);
     try {
       const body = {'event_type': 'pull_request', 'client_payload': {pr: pullRequest.number}};
-      const response = await axios.post(`https://api.github.com/repos/${ROUTES[repositoryFullName]}/dispatches`,
+      const response = await axios.post(`https://api.github.com/repos/${ROUTES[repositoryFullName].target}/dispatches`,
         body,
         {
           headers: {
