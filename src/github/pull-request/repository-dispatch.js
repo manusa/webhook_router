@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const ROUTES = {
-  'eclipse/jkube': {
+  'eclipse-jkube/jkube': {
     target: 'eclipse-jkube/ci',
     actions: ['converted_to_draft', 'opened', 'synchronize', 'ready_for_review']
   }
